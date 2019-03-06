@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <!--
+    ASSINGNMENT 2
+    Hierarchical Modeling: Modeling and Animating a Quadruped Animal
+    CS 465
+
+    Waqas Rehmani
+    21402884
+
+    This is the HTML file for the assignment.
+    -->
+
+
+    <meta charset="utf-8">
+    <title>Hierarchical Modeling: Modeling and Animating a Quadruped Animal</title>
+
+    <script id='vertex-shader' type="x-shader/x-vertex">
+      attribute vec4 vPosition;
+
+      uniform mat4 modelViewMatrix;
+      uniform mat4 projectionMatrix;
+
+      void main()
+      {
+          gl_Position = projectionMatrix * modelViewMatrix * vPosition;
+
+      }
+    </script>
+    <script id="fragment-shader" type="x-shader/x-fragment">
+
+      precision mediump float;
+      precision mediump float;
+
+
+      void main()
+      {
+          gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+
+
+      }
+    </script>
+    <script type="text/javascript" src="../Source/Common/webgl-utils.js"></script>
+    <script type="text/javascript" src="../Source/Common/initShaders.js"></script>
+    <script type="text/javascript" src="../Source/Common/MV.js"></script>
+    <script type="text/javascript" src="../Source/assignment2.js"></script>
+    <link rel="stylesheet" type="text/css" href="../Source/style.css">
+  </head>
+
+  <body>
+
+    <div class="side-menu-left" id="side-menu-left">
+
+      <div class="slidecontainer">
+        <div class="heading">
+          WHITE HORSE
+        </div>
+      </div>
+
+      <div class="slidecontainer">
+        <div class="heading">
+          Animation settings
+        </div>
+      </div>
+
+      <div class="slidecontainer">
+        <div class="button save-button" id="save-keyframe-button">
+          Save KeyFrame
+        </div>
+        <div class="list-item-selected" id="keyframeLabel">&nbsp</div>
+
+        <div class="slidecontainer">
+          <label>Horizontal Move Speed: <span id="horizontal-speed-label"></span> </label>
+          <input type="range" min="0.05" max="2" step="0.05" class="slider" id="horizontalSpeed" >
+        </div><div class="slidecontainer">
+          <label>Limb Rotation Speed: <span id="rotation-speed-label"></span> </label>
+          <input type="range" min="0.05" max="2" step="0.05"  class="slider" id="rotationSpeed" >
+        </div>
+      </div>
+
+
+
+      <div class="load-section">
+        <div class="button save-button" id="save-button">
+          Save Animation
+        </div>
+
+        <div class="list-item-selected" id="selectedItem">&nbsp</div>
+
+        <div class="list" id="list-wrapper">
+        </div>
+
+        <div class="button load-button" id="load-button">
+          Load
+        </div>
+
+        <div class="button load-button" id="animate-button">
+          Animate
+        </div>
+      </div>
+
+
+    </div>
+
+    <canvas id="gl-canvas" >
+      Sorry. Your browser doesn't support the HTML5 canvas element.
+    </canvas>
+
+    <div class="side-menu" id="side-menu">
+      <div class="slidecontainer">
+        <div class="heading">
+          WHITE HORSE
+        </div>
+      </div>
+
+      <div class="slidecontainer">
+        <div class="heading">
+          Adjust the settings
+        </div>
+      </div>
+
+
+      <div class="slider-section">
+        <div class="heading">
+          Keyboard Control
+        </div>
+        <div class="slidecontainer">
+          <div class="heading" id='keyboard-label'>
+            Active
+          </div>
+          <label class="switch">
+            <input type="checkbox" checked id='keyboard-switch' >
+            <span class="slider2 round"></span>
+          </label>
+        </div>
+
+        <div class="slidecontainer">
+          <div class="heading" id='move-type-label'>
+            Walk
+          </div>
+          <label class="switch">
+            <input type="checkbox" id='move-type-switch' >
+            <span class="slider2 round"></span>
+          </label>
+        </div>
+
+        <div class="list-item-selected" >Left Arrow: Left</div>
+        <div class="list-item-selected" >Up Arrow: Jump</div>
+        <div class="list-item-selected" >Right Arrow: Right</div>
+
+      </div>
+
+
+
+      <div class="slider-section">
+        <div class="heading">
+          Body Positions
+        </div>
+
+        <div class="slidecontainer">
+          <label>Left Front Leg</label>
+          <input type="range" min="160" max="200" class="slider" id="lflegRot" >
+        </div>
+
+        <div class="slidecontainer">
+          <label>Right Front Leg </label>
+
+          <input type="range" min="160" max="200" class="slider" id="rflegRot" >
+        </div>
+
+        <div class="slidecontainer">
+          <label>Left Back Leg </label>
+          <input type="range" min="160" max="200" class="slider" id="lblegRot" >
+        </div>
+
+        <div class="slidecontainer">
+          <label>Right Back Leg</label>
+          <input type="range" min="160" max="200" class="slider" id="rblegRot" >
+        </div>
+
+
+        <div class="slidecontainer">
+          <label>Neck: <span id="asdqw"></span> </label>
+          <input type="range" min="-90" max="0" class="slider" id="neckRot" >
+        </div>
+
+        <div class="slidecontainer">
+          <label>Head: <span id="asfev"></span> </label>
+          <input type="range" min="-95" max="-70" class="slider" id="headRot" >
+        </div>
+
+        <div class="slidecontainer">
+          <label>Tail: <span id="asfev"></span> </label>
+          <input type="range" min="70" max="170" class="slider" id="tailRot" >
+        </div>
+
+        <div class="slidecontainer">
+          <label>horizontalPosition: <span id="asfev"></span> </label>
+          <input type="range" min="-40" max="40" class="slider" id="horizontalPosition" >
+        </div>
+
+        <div class="slidecontainer">
+          <label>Zoom: <span id="zoomLabel"></span> </label>
+          <input type="range" min="-150" max="-40" value="-40" class="slider" id="zoomSlider" >
+        </div>
+      </div>
+    </div>
+
+  </body>
+
+</html>
